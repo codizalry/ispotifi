@@ -12,18 +12,11 @@ const fac = new FastAverageColor();
 
 const ImageWithBackground: React.FC<ImageWithBackgroundProps> = ({ imgSrc, children, customClass }) => {
 
-
   const [backgroundColor, setBackgroundColor] = useState<string>('transparent');
 
   useEffect(() => {
     const fetchDominantColor = async () => {
       try {
-        
-  if(imgSrc == '') {
-    return(
-      {children}
-    )
-  }
         fac.getColorAsync(imgSrc)
         .then(color => { setBackgroundColor(color.rgba)})
       } catch (error) {

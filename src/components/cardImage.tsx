@@ -11,7 +11,7 @@ const CardImage = (props: {key: number, link: string, imageBackground: string, i
         
         <Box component="div" className="album-image" position="relative" overflow="hidden" borderRadius='5px' sx={{backgroundColor: (props.imageBackground || 'initial')}}>
 
-            <Box component="img" src={props.image} width={155} height={155} color='#fff' borderRadius={props.imageStyle == 'circle' ? '50%' : ''} sx={{objectFit: 'cover'}}/>
+            <Box component="img" src={props.image} width={155} height={155} color='#fff' borderRadius={props.imageStyle === 'circle' ? '50%' : ''} sx={{objectFit: 'cover'}}/>
 
             <Typography component="span" sx={ { transition: '.5s ease', position: 'absolute', width: '50px', height: '50px', right: 10, bottom: -5, fontSize: '20px', color: '#000', opacity: 0, backgroundColor: '#1db954', borderRadius: '50px', display: 'flex', alignItems: 'center', justifyContent: 'center' } } >
                 <FaPlay/>

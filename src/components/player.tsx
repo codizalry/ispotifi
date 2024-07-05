@@ -1,30 +1,19 @@
 import { useEffect, useState } from "react";
-import { Box, Button, Container, Grid, Link, TextField, Tooltip, Typography } from "@mui/material";
+import { Box, Tooltip, Typography } from "@mui/material";
 import { TiArrowShuffle } from "react-icons/ti";
 import { MdSkipPrevious, MdSkipNext } from "react-icons/md";
 import { FaCirclePause, FaCirclePlay } from "react-icons/fa6";
-import { FaCircle } from "react-icons/fa";
 import { RiRepeatLine } from "react-icons/ri";
-import { RiVolumeMuteLine, RiVolumeUpLine } from "react-icons/ri";
+import { RiVolumeUpLine } from "react-icons/ri";
 import { LiaMicrophoneAltSolid } from "react-icons/lia";
-import { AiOutlineFullscreen, AiOutlineFullscreenExit  } from "react-icons/ai";
+import { AiOutlineFullscreen  } from "react-icons/ai";
 import { CgMiniPlayer } from "react-icons/cg";
 import { HiQueueList } from "react-icons/hi2";
 import { LuPlaySquare } from "react-icons/lu";
 
-const CLIENT_ID = '4af4046d93284335815103e402797520';
-const CLIENT_SECRET = '58c1d3a10f444659a39b2185adcca36c';
-
-
 const Player = (props: {trackID: string, accessTokens: string}) => {
 
-const [currentlyPlaying, setCurrentlyPlaying] = useState(null);
 const [pause, setPause] = useState(false);
-const [shuffle, setShuffle] = useState(false);
-const [previous, setPrevious] = useState(false);
-const [next, setNext] = useState(false);
-const [repeat, setRepeat] = useState(false);
-const [device, setDevice] = useState('');
 
 // Basic Auth
   useEffect(()=>{
