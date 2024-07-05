@@ -37,17 +37,17 @@ const SideBar = (props: {panelSize: string}) => {
         } 
     }
 
-    const followPlaylist = await fetch(`https://api.spotify.com/v1/me/playlists`, header)
+    await fetch(`https://api.spotify.com/v1/me/playlists`, header)
     .then(data => data.json())
     .then(data => { setPlaylist(data.items) })
     .catch((error) => { sessionStorage.clear(); })
 
-    const followAlbum = await fetch(`https://api.spotify.com/v1/me/albums`, header)
+    await fetch(`https://api.spotify.com/v1/me/albums`, header)
     .then(data => data.json())
     .then(data => { setAlbums(data.items) })
     .catch((error) => { sessionStorage.clear(); })
 
-    const savedTracks = await fetch(`https://api.spotify.com/v1/me/tracks`, header)
+    await fetch(`https://api.spotify.com/v1/me/tracks`, header)
     .then(data => data.json())
     .then(data => { setSavedSongs(data.items) })
     .catch((error) => { sessionStorage.clear(); })
@@ -62,10 +62,10 @@ const SideBar = (props: {panelSize: string}) => {
         >
         <Box 
             component='div' 
-            padding={hideText == 'none' ? '10px 0' : '10px'}
+            padding={hideText === 'none' ? '10px 0' : '10px'}
             display='flex'
             flexDirection='column'
-            alignItems={hideText == 'none' ? 'center' : 'flex-start'}
+            alignItems={hideText === 'none' ? 'center' : 'flex-start'}
             borderRadius='10px'
             sx={ { backgroundColor: '#121212' } } >
 
@@ -80,7 +80,7 @@ const SideBar = (props: {panelSize: string}) => {
                         fontWeight: 'bold',
                         fontSize: '20px',
                         width: '100%',
-                        justifyContent: (hideText == 'none' ? 'center' : 'start'),
+                        justifyContent: (hideText === 'none' ? 'center' : 'start'),
                         textTransform: 'inherit',
                         '&:hover': {
                             color: '#fff',
@@ -106,7 +106,7 @@ const SideBar = (props: {panelSize: string}) => {
                         fontWeight: 'bold',
                         fontSize: '20px',
                         width: '100%',
-                        justifyContent: (hideText == 'none' ? 'center' : 'start'),
+                        justifyContent: (hideText === 'none' ? 'center' : 'start'),
                         textTransform: 'inherit',
                         '&:hover': {
                             color: '#fff',
@@ -125,11 +125,11 @@ const SideBar = (props: {panelSize: string}) => {
         
         <Box 
             component='div' 
-            padding={hideText == 'none' ? '10px 0 100px' : '10px 10px 50px'}
+            padding={hideText === 'none' ? '10px 0 100px' : '10px 10px 50px'}
             height='100%'
             display='flex'
             flexDirection='column'
-            alignItems={hideText == 'none' ? 'center' : 'flex-start'}
+            alignItems={hideText === 'none' ? 'center' : 'flex-start'}
             marginTop='10px'
             borderRadius='10px'
             sx={ { backgroundColor: '#121212', overflowY: 'overlay' } } >

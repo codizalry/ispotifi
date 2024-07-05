@@ -1,4 +1,4 @@
-import { Box, ToggleButton, Tooltip, Typography } from "@mui/material"
+import { ToggleButton, Tooltip } from "@mui/material"
 import { TbCirclePlus, TbCircleCheckFilled } from "react-icons/tb";
 import { useState, useEffect } from "react";
 
@@ -8,7 +8,7 @@ const SavedSong = (props: {trackID: string}) => {
 
   useEffect(()=>{
     checkSongs(accessToken, props.trackID);
-  }, []);
+  }, [accessToken]);
 
   async function checkSongs(token: string, trackID: string) {
     var header = { 
@@ -18,7 +18,7 @@ const SavedSong = (props: {trackID: string}) => {
         'Authorization': 'Bearer ' + token 
       } 
     }
-    const songChecker = await fetch(`https://api.spotify.com/v1/me/tracks/contains?ids=${trackID}`, header)
+    await fetch(`https://api.spotify.com/v1/me/tracks/contains?ids=${trackID}`, header)
     .then(response => response.json())
     .then(response => { return response[0] ? setSelected(true) : setSelected(false)})
   }
@@ -31,7 +31,7 @@ const SavedSong = (props: {trackID: string}) => {
         'Authorization': 'Bearer ' + token 
       } 
     }
-    const putLikedSong = await fetch(`https://api.spotify.com/v1/me/tracks?ids=${trackID}`, header)
+    await fetch(`https://api.spotify.com/v1/me/tracks?ids=${trackID}`, header)
     .then(response => response)
   }
 
@@ -46,7 +46,7 @@ const SavedSong = (props: {trackID: string}) => {
         ids: trackID,
       }),
     }
-    const putLikedSong = await fetch(`https://api.spotify.com/v1/me/tracks?ids=${trackID}`, header)
+    await fetch(`https://api.spotify.com/v1/me/tracks?ids=${trackID}`, header)
     .then(response => response)
   }
 
@@ -58,7 +58,7 @@ const SavedSong = (props: {trackID: string}) => {
     }
     setSelected(!selected);
     
-    if(localStorage.getItem('test') != 'false') {
+    if(localStorage.getItem('test') !== 'false') {
       localStorage.setItem('test', 'false');
     } else {
       localStorage.setItem('test', 'true');

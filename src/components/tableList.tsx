@@ -1,6 +1,5 @@
 import { FaPlay } from "react-icons/fa";
-import { Box, Link, ToggleButton, Tooltip, Typography } from "@mui/material"
-import { TbCirclePlus, TbCircleCheckFilled } from "react-icons/tb";
+import { Box, Link, Typography } from "@mui/material"
 import { useState, useEffect } from "react";
 import SavedSong from "./savedSong";
 
@@ -21,7 +20,7 @@ const TableList: React.FC<Props> = ({ image, trackID, title, artist0, artist1, a
 
   useEffect(()=>{
     checkSongs(accessToken, trackID);
-  }, []);
+  }, [accessToken]);
 
   async function checkSongs(token: string, trackID: string) {
 
@@ -32,7 +31,7 @@ const TableList: React.FC<Props> = ({ image, trackID, title, artist0, artist1, a
         'Authorization': 'Bearer ' + token 
       } 
     }
-    const songChecker = await fetch(`https://api.spotify.com/v1/me/tracks/contains?ids=${trackID}`, header)
+    await fetch(`https://api.spotify.com/v1/me/tracks/contains?ids=${trackID}`, header)
     .then(response => response.json())
     .then(response => { return response[0] ? setSelected(true) : setSelected(false)})
   }
@@ -45,8 +44,7 @@ const TableList: React.FC<Props> = ({ image, trackID, title, artist0, artist1, a
         'Authorization': 'Bearer ' + token 
       } 
     }
-    const putLikedSong = await fetch(`https://api.spotify.com/v1/me/tracks?ids=${trackID}`, header)
-    .then(response => response)
+    await fetch(`https://api.spotify.com/v1/me/tracks?ids=${trackID}`, header);
   }
 
   async function unSavedSongs(token: string, trackID: string) {
@@ -60,8 +58,7 @@ const TableList: React.FC<Props> = ({ image, trackID, title, artist0, artist1, a
         ids: trackID,
       }),
     }
-    const putLikedSong = await fetch(`https://api.spotify.com/v1/me/tracks?ids=${trackID}`, header)
-    .then(response => response)
+    await fetch(`https://api.spotify.com/v1/me/tracks?ids=${trackID}`, header);
   }
 
   const handleLikedSongs = () => {
@@ -77,7 +74,7 @@ const TableList: React.FC<Props> = ({ image, trackID, title, artist0, artist1, a
     <Box onClick={handleLikedSongs} px={1.25} py={1} display="flex" justifyContent="space-between" alignItems="center" borderRadius={1.25} sx={ { ':hover': { background: 'rgba(179,179,179, 0.1)', cursor: 'pointer' }, ':hover .image-content img': { opacity: 0.5 }, ':hover .image-content span': { opacity: 1 } } }>
       <Box display="flex" alignItems="center" >
         <Box position='relative' className='image-content'>
-          <img src={image} width={35} height={35} style={{borderRadius: '5px'}}/>
+          <img src={image} width={35} height={35} style={{borderRadius: '5px'}} alt='Album Profile'/>
           <Typography component="span" fontSize={12} sx={{position: 'absolute', left: '50%', top: '50%', transform: 'translate(-50%, -50%)', transition: '0.2s', opacity: '0'}}><FaPlay /></Typography>
         </Box>
         <Box ml={2}>

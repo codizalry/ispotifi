@@ -9,7 +9,7 @@ const SavedPlaylist = (props: {trackID: string, savedPlaylist: ()=> void}) => {
 
   useEffect(()=>{
     checkSongs(accessToken, props.trackID);
-  }, []);
+  }, [accessToken]);
 
   async function checkSongs(token: string, trackID: string) {
     var header = { 
@@ -19,7 +19,7 @@ const SavedPlaylist = (props: {trackID: string, savedPlaylist: ()=> void}) => {
         'Authorization': 'Bearer ' + token 
       } 
     }
-    const songChecker = await fetch(`https://api.spotify.com/v1/playlists/${trackID}/followers/contains`, header)
+    await fetch(`https://api.spotify.com/v1/playlists/${trackID}/followers/contains`, header)
     .then(response => response.json())
     .then(response => { return response[0] ? setSelected(true) : setSelected(false)})
   }
@@ -32,8 +32,7 @@ const SavedPlaylist = (props: {trackID: string, savedPlaylist: ()=> void}) => {
           'Authorization': 'Bearer ' + token 
         },
       }
-    const putLikedSong = await fetch(`https://api.spotify.com/v1/playlists/${trackID}/followers`, header)
-    .then(response => response)
+    await fetch(`https://api.spotify.com/v1/playlists/${trackID}/followers`, header);
   }
 
   async function unSavedSongs(token: string, trackID: string) {
@@ -44,8 +43,7 @@ const SavedPlaylist = (props: {trackID: string, savedPlaylist: ()=> void}) => {
         'Authorization': 'Bearer ' + token 
       },
     }
-    const putLikedSong = await fetch(`https://api.spotify.com/v1/playlists/${trackID}/followers`, header)
-    .then(response => response)
+    await fetch(`https://api.spotify.com/v1/playlists/${trackID}/followers`, header);
   }
 
   const handleLikedSongs = () => {
@@ -56,7 +54,7 @@ const SavedPlaylist = (props: {trackID: string, savedPlaylist: ()=> void}) => {
     }
     setSelected(!selected);
     props.savedPlaylist();
-    if(localStorage.getItem('test') != 'false') {
+    if(localStorage.getItem('test') !== 'false') {
       localStorage.setItem('test', 'false');
     } else {
       localStorage.setItem('test', 'true');
