@@ -10,10 +10,10 @@ import { person, music } from "../assets";
 import Navigation from "../components/navigation";
 import CardImage from "../components/cardImage";
 import TableList from "../components/tableList";
-
+import { useParams } from "react-router";
 const Aritst = () => {
   type profileType = {
-    display_name: string,
+    name: string,
     email: string,
     type: string
     followers: {
@@ -24,6 +24,7 @@ const Aritst = () => {
         url: string,
     }[],
   }
+  const { id } = useParams<{ id: string }>();
   const accessToken = sessionStorage.getItem('access_token') || '';
   const [sidePanelSize, setSidePanelSize] = useState('');
   const [profileData, setProfileData] = useState<profileType[]>([]);
@@ -51,19 +52,19 @@ const Aritst = () => {
         } 
     }
 
-    await fetch('https://api.spotify.com/v1/me', header)
+    await fetch('https://api.spotify.com/v1/artists/'+id, header)
     .then(response => response.json())
     .then(response => { setProfileData([response]) })
 
-    await fetch('https://api.spotify.com/v1/me/top/artists?limit=10', header)
+    await fetch(`https://api.spotify.com/v1/artists/${id}/related-artists?limit=8`, header)
     .then(data => data.json())
-    .then(data => { setTopArtists(data.items) })
+    .then(data => { setTopArtists(data.artists) })
 
-    await fetch('https://api.spotify.com/v1/me/top/tracks?limit=5', header)
+    await fetch(`https://api.spotify.com/v1/artists/${id}/top-tracks?limit=8`, header)
     .then(data => data.json())
-    .then(data => { setTopTracks(data.items) })
+    .then(data => { setTopTracks(data.tracks) })
 
-    await fetch(`https://api.spotify.com/v1/me/playlists?limit=6`, header)
+    await fetch(`https://api.spotify.com/v1/artists/${id}/albums?limit=8`, header)
     .then(data => data.json())
     .then(data => { setPlaylist(data.items) })
   }
@@ -134,12 +135,8 @@ const Aritst = () => {
                         </Box>
                         <Box ml={3} zIndex={4} className="text-cw">
                             <Typography variant="body2" textTransform='capitalize' fontWeight='bold'>Profile</Typography>
-                            <Typography variant="h1" fontWeight='bold' pb={2}>{profileData[0].display_name}</Typography>
-                            <Typography variant="body2">
-                                <Typography component='span' fontSize='14px'>Follower(s): {profileData[0].followers.total}</Typography>
-                                <Typography component='span' fontSize='40px' lineHeight={0} mx={0.50}>.</Typography>
-                                <Typography component='span' fontSize='14px'>Email: {profileData[0].email}</Typography>
-                            </Typography>
+                            <Typography variant="h1" fontWeight='bold' pb={2}>{profileData[0].name}</Typography>
+                            <Typography variant='body2' fontSize='14px'>Follower(s): {profileData[0].followers.total.toLocaleString()}</Typography>
                         </Box>
                     </Box>
                 }
@@ -148,34 +145,11 @@ const Aritst = () => {
                 <Box position='relative'>
                     {profileData.length > 0 && <Box position='absolute' zIndex={2} top={0} width='100%' height={250}><ImageWithBackground imgSrc={profileData[0].images[1] ? profileData[0].images[1].url : person} customClass="linear-gradient(rgba(0, 0, 0, .6) 0, #121212 100%)"><></></ImageWithBackground></Box>}
                     <Box position='relative' zIndex={5} px={3} pt={7} maxWidth='1955px'>
-                        <Box>
-                            <Typography variant="h5" fontWeight='bold' color='#fff'>Top artists this month</Typography>
-                            <Typography variant="body2" color='#A7A7A7'>Only visible to you</Typography>
-                            <Box display="flex" flexWrap="wrap" pt={1} marginLeft={-1} maxWidth='1955px'>
-                            {
-                                topArtists.length > 0 &&
-                                topArtists.map((artist, i) => {
-                                  return (
-                                        <CardImage
-                                          key={i}
-                                          link={'/search/'+artist['name']}
-                                          imageBackground={artist['images'] ? '' : '#333333'}
-                                          imageStyle={'circle'}
-                                          image={artist['images'] ? artist['images'][0]['url'] : music}
-                                          title={artist['name']}
-                                          artist={artist['type']}
-                                        />
-                                  )
-                                } )
-                            }
-                            </Box>
-                        </Box>
 
-                        <Box my={5} maxWidth='1955px'>
+                        <Box mb={5} maxWidth='1955px'>
                             <Box display='flex' justifyContent='space-between'>
                                 <Box>
-                                    <Typography variant="h5" fontWeight='bold' color='#fff'>Top tracks this month</Typography>
-                                    <Typography variant="body2" color='#A7A7A7'>Only visible to you</Typography>
+                                    <Typography variant="h5" fontWeight='bold' color='#fff'>Popular</Typography>
                                 </Box>
                                 <Link href='#' color='#a7a7a7' fontWeight='bold' sx={{':hover': { textDecoration: 'underline !important'}}}>Show All</Link>
                             </Box>
@@ -216,8 +190,30 @@ const Aritst = () => {
                                           imageStyle={'square'}
                                           image={artist['images'] ? artist['images'][0]['url'] : music}
                                           title={artist['name']}
-                                          artist= {'By' +artist['owner']['display_name']}
+                                          artist= {'By' +artist['artists']['name']}
                                           />
+                                  )
+                                } )
+                            }
+                            </Box>
+                        </Box>
+
+                        <Box>
+                            <Typography variant="h5" fontWeight='bold' color='#fff'>Fans also like</Typography>
+                            <Box display="flex" flexWrap="wrap" pt={1} marginLeft={-1} maxWidth='1955px'>
+                            {
+                                topArtists.length > 0 &&
+                                topArtists.map((artist, i) => {
+                                  return (
+                                        <CardImage
+                                          key={i}
+                                          link={'/search/'+artist['name']}
+                                          imageBackground={artist['images'] ? '' : '#333333'}
+                                          imageStyle={'circle'}
+                                          image={artist['images'] ? artist['images'][0]['url'] : music}
+                                          title={artist['name']}
+                                          artist={artist['type']}
+                                        />
                                   )
                                 } )
                             }
