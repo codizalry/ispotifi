@@ -7,7 +7,6 @@ import Divider from '@mui/material/Divider';
 import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
 import Tooltip from '@mui/material/Tooltip';
-import { IoLogOut } from "react-icons/io5";
 import { Link } from '@mui/material';
 import { useState, useEffect } from 'react';
 
@@ -46,7 +45,7 @@ const Navigation = () => {
   useEffect(()=>{
     setRandomColor("#000000".replace(/0/g,function(){return (~~(Math.random()*16)).toString(16);}));
     profiles(accessToken);
-  }, []);
+  }, [accessToken]);
 
   // Search
   async function profiles(token: string) {
@@ -60,9 +59,9 @@ const Navigation = () => {
         } 
     }
 
-    const profileDatas = await fetch('https://api.spotify.com/v1/me', header)
-    .then(response => response.json())
-    .then(response => { setProfileData([response]) })
+    const profileDatas = await fetch('https://api.spotify.com/v1/me', header);
+    const profileResponse = await profileDatas.json();
+    setProfileData([profileResponse]);
   }
 
   return (
@@ -96,7 +95,7 @@ const Navigation = () => {
                   {
                     profileData[0].images[1] ?
                     (
-                      <img src={profileData[0].images[1].url} style={{ objectFit: 'cover', width: '100%', height: '100%'}}/>
+                      <img src={profileData[0].images[1].url} style={{ objectFit: 'cover', width: '100%', height: '100%'}} alt='Profile Image'/>
                     ) :
                     (
                       <Typography variant='body2' fontWeight='bold' textTransform='capitalize'>{profileData[0].display_name.charAt(0)}</Typography>
