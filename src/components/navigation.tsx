@@ -95,7 +95,7 @@ const Navigation = () => {
                   {
                     profileData[0].images[1] ?
                     (
-                      <img src={profileData[0].images[1].url} style={{ objectFit: 'cover', width: '100%', height: '100%'}} alt='Profile Image'/>
+                      <img src={profileData[0].images[1].url} style={{ objectFit: 'cover', width: '100%', height: '100%'}} alt='Profile'/>
                     ) :
                     (
                       <Typography variant='body2' fontWeight='bold' textTransform='capitalize'>{profileData[0].display_name.charAt(0)}</Typography>

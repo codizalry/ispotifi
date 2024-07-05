@@ -9,7 +9,7 @@ const SavedAlbum = (props: {trackID: string, savedPlaylist: ()=> void}) => {
 
   useEffect(()=>{
     checkSongs(accessToken, props.trackID);
-  }, []);
+  }, [accessToken]);
 
   async function checkSongs(token: string, trackID: string) {
     var header = { 
@@ -19,9 +19,9 @@ const SavedAlbum = (props: {trackID: string, savedPlaylist: ()=> void}) => {
         'Authorization': 'Bearer ' + token 
       } 
     }
-    const songChecker = await fetch(`https://api.spotify.com/v1/me/albums/contains?ids=${trackID}`, header)
-    .then(response => response.json())
-    .then(response => { return response[0] ? setSelected(true) : setSelected(false)})
+    const songChecker = await fetch(`https://api.spotify.com/v1/me/albums/contains?ids=${trackID}`, header);
+    const songResponse = await songChecker.json();
+    songResponse[0] ? setSelected(true) : setSelected(false);
   }
 
   async function savedSongs(token: string, trackID: string) {
@@ -35,8 +35,7 @@ const SavedAlbum = (props: {trackID: string, savedPlaylist: ()=> void}) => {
          ids: trackID,
         }),
       }
-    const putLikedSong = await fetch(`https://api.spotify.com/v1/me/albums?ids=${trackID}`, header)
-    .then(response => response)
+    await fetch(`https://api.spotify.com/v1/me/albums?ids=${trackID}`, header);
   }
 
   async function unSavedSongs(token: string, trackID: string) {
@@ -50,8 +49,7 @@ const SavedAlbum = (props: {trackID: string, savedPlaylist: ()=> void}) => {
             ids: trackID,
         }),
     }
-    const putLikedSong = await fetch(`https://api.spotify.com/v1/me/albums?ids=${trackID}`, header)
-    .then(response => response)
+    await fetch(`https://api.spotify.com/v1/me/albums?ids=${trackID}`, header);
   }
 
   const handleLikedSongs = () => {
@@ -62,7 +60,7 @@ const SavedAlbum = (props: {trackID: string, savedPlaylist: ()=> void}) => {
     }
     setSelected(!selected);
     props.savedPlaylist();
-    if(localStorage.getItem('test') != 'false') {
+    if(localStorage.getItem('test') !== 'false') {
       localStorage.setItem('test', 'false');
     } else {
       localStorage.setItem('test', 'true');

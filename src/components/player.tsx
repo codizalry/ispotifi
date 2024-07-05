@@ -66,7 +66,7 @@ const iconStyle = {
   return (
     <Box display='flex' justifyContent='space-between' marginTop='10px' marginLeft='10px' marginRight='10px' >
         <Box display='flex' flexDirection='row' alignItems='center'>
-            <img src="https://i.scdn.co/image/ab67616d00001e02f907de96b9a4fbc04accc0d5" width={55} style={{borderRadius: '5px'}} />
+            <img src="https://i.scdn.co/image/ab67616d00001e02f907de96b9a4fbc04accc0d5" width={55} style={{borderRadius: '5px'}} alt='Album Profile' />
             <Box marginLeft='15px'>
                 <Typography variant="body1" color='#fff' fontSize='14px'>Push Ups</Typography>
                 <Typography variant="body2" color='#a7a7a7' fontSize='12px'>Drake</Typography>
