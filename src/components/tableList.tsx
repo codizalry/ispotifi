@@ -20,7 +20,7 @@ const TableList: React.FC<Props> = ({ image, trackID, title, artist0, artist1, a
 
   useEffect(()=>{
     checkSongs(accessToken, trackID);
-  }, [accessToken]);
+  }, [accessToken, trackID]);
 
   async function checkSongs(token: string, trackID: string) {
 

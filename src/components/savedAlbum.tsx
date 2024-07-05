@@ -9,7 +9,7 @@ const SavedAlbum = (props: {trackID: string, savedPlaylist: ()=> void}) => {
 
   useEffect(()=>{
     checkSongs(accessToken, props.trackID);
-  }, [accessToken]);
+  }, [accessToken, props.trackID]);
 
   async function checkSongs(token: string, trackID: string) {
     var header = { 

@@ -19,12 +19,11 @@ const SideBar = (props: {panelSize: string}) => {
   const [playlist, setPlaylist] = useState([]);
   const [savedSongs, setSavedSongs] = useState([]);
   const [albums, setAlbums] = useState([]);
-  const [result, setResult] = useState([]);
+  
   useEffect(()=>{
     localStorage.setItem('test', 'false');
     profiles(accessToken);
-    setResult([...playlist, ...result]);
-  }, [localStorage.getItem('test')]);
+  }, [localStorage.getItem('test'), accessToken]);
 
   // Search
   async function profiles(token: string) {
