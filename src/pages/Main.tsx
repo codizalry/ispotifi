@@ -1,4 +1,4 @@
-  import { useEffect, useState } from "react";
+  import { useState } from "react";
   import SideBar from "../components/sidebar";
   import BasicAuth from "../hook/basicAuth";
   import { Box, Typography } from "@mui/material";
@@ -14,11 +14,6 @@
 
     // Basic Auth
     BasicAuth();
-
-    useEffect(()=>{
-
-    }, []);
-
 
     return (
       <>
@@ -67,7 +62,7 @@
                 </Box>
                 
                 <Box className='text-cw' display='flex' flexDirection='column' alignItems='center' justifyContent='center' height='80%'>
-                    <img src={maintenance} width='100'/>
+                    <img src={maintenance} width='100' alt='Maintenance'/>
                     <Typography variant="h4" display='flex' alignItems='center' color='#b3bab4' p={5}>This Section is under maintenance. <LuConstruction style={{ marginLeft: '20px', fontSize: '40px'}} /></Typography>
                 </Box>
             </Box>

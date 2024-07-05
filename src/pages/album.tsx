@@ -54,11 +54,7 @@ const Album = () => {
     const [albumsList, setAlbumsList] = useState<albumData[]>([]);
     const [albumInfo, setAlbumInfo] = useState<artistData[]>([]);
     const [recommendations, setRecommendations] = useState([]);
-    const [totalDuration, setTotalDuration] = useState(0);
-    const [playing, setPlaying] = useState('');
     const [sidePanelSize, setSidePanelSize] = useState('inherit');
-    const [audio, setAudio] = useState('');
-    const [codeVerifier, setCodeVerifier] = useState('');
     const [tracker, setTracker] = useState<string>(localStorage.getItem('test') || 'false');
 
     // Basic Auth
@@ -66,9 +62,6 @@ const Album = () => {
         
     // Fetch Access Token
     useEffect(() => {
-
-      setCodeVerifier(sessionStorage.getItem('code_verifier') || '');
-      
       const authParameters = {
         method: 'POST',
         headers: {
@@ -77,7 +70,7 @@ const Album = () => {
         body: `grant_type=client_credentials&client_id=${CLIENT_ID}&client_secret=${CLIENT_SECRET}`
       };
       fetch('https://accounts.spotify.com/api/token', authParameters)
-        .then(result => result.json())
+        .then(response => response.json())
         .then(data => {
           setAccessToken(data.access_token);
           result(data.access_token);
@@ -109,7 +102,7 @@ const Album = () => {
     }
 
     const handleSubmit = () => {
-      setTracker(tracker == 'true' ? 'false' : 'true');
+      setTracker(tracker === 'true' ? 'false' : 'true');
     }
     return (
     <>
@@ -164,7 +157,7 @@ const Album = () => {
                   <Box display='flex' alignItems='end' position='relative' py={2}>
                     <Box position='absolute' zIndex={2} top={0} width='100%' height={250} sx={{backgroundImage: 'linear-gradient(transparent 0, rgba(0, 0, 0, .5) 100%)'}}><ImageWithBackground imgSrc={albumInfo[0].images[0].url} customClass=""><></></ImageWithBackground></Box>
                       <Box zIndex={4} pl={2}>
-                        <img src={albumInfo[0].images[0].url} width={150} style={{borderRadius: '5px'}}/>
+                        <img src={albumInfo[0].images[0].url} width={150} style={{borderRadius: '5px'}} alt='Album Profile'/>
                       </Box>
                       <Box ml={2} zIndex={4} className="text-cw">
                         <Typography variant="body2" textTransform='capitalize' fontWeight='bold'>{albumInfo[0].album_type}</Typography>
@@ -268,27 +261,11 @@ const Album = () => {
           </Box>
         </Panel>
 
-        {playing.trim().length > 0 &&
-          <>
-            <SpotifyPlayer
-              token={(sessionStorage.getItem('access_token') || '')}
-              styles={{
-                bgColor: "rgb(19, 18, 18)",
-                color: "#ffffff",
-                sliderColor: "#1cb954",
-                sliderHandleColor: "whitesmoke",
-                trackArtistColor: "#ffffff",
-                trackNameColor: "#fff",
-              }}
-              uris={['spotify:artist:6HQYnRM4OzToCYPpVBInuU']}
-              autoPlay
-            />
-          </>
-        }
+        
 
       </PanelGroup>
       <Player
-        trackID={playing}
+        trackID=''
         accessTokens={accessToken}/>
     </>
   )
