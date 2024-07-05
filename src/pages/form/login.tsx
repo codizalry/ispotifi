@@ -16,9 +16,9 @@ const Login = () => {
   return (
     <Box display='flex' flexDirection='column' justifyContent='center' alignItems='center' minHeight='100vh'>
 
-      <img src={logo}/>
+      <img src={logo} alt='logo'/>
       {codeVerifier ? (
-        <img src={loading} width={250}/>
+        <img src={loading} width={250} alt='loading'/>
       ) : ( 
         <Button variant="contained" color="success" onClick={authorize} sx={{ padding: '20px' }}> Login to Spotify </Button>
       )}

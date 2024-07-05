@@ -70,7 +70,6 @@ const Collection = () => {
         }
     }
     const accessToken = sessionStorage.getItem('access_token') || '';
-    const [playing, setPlaying] = useState('');
     const [profile, setProfile] = useState<profileType[]>([]);
     const [sidePanelSize, setSidePanelSize] = useState('inherit');
     const [track, setTrack] = useState<tracks[]>([]);
@@ -81,7 +80,7 @@ const Collection = () => {
     // Fetch Access Token
     useEffect(() => {
         result(accessToken);
-    }, [localStorage.getItem('test')]);
+    }, [localStorage.getItem('test'), accessToken]);
 
     const result = async (token: string) => {
       var headers = { 
@@ -92,18 +91,19 @@ const Collection = () => {
         } 
       }
 
-      const albumListResponse = await fetch(`https://api.spotify.com/v1/me`, headers)
+      await fetch(`https://api.spotify.com/v1/me`, headers)
         .then(data => data.json())
         .then(data => { setProfile([data]) })
         .catch((error) => { sessionStorage.clear(); });
-      const savedTracks = await fetch(`https://api.spotify.com/v1/me/tracks`, headers)
+
+      await fetch(`https://api.spotify.com/v1/me/tracks`, headers)
         .then(data => data.json())
         .then(data => { setTrack(data.items); })
         .catch((error) => { sessionStorage.clear(); });
     }
 
     const handleSubmit = () => {
-      setTracker(tracker == 'true' ? 'false' : 'true');
+      setTracker(tracker === 'true' ? 'false' : 'true');
     }
 
     return (
@@ -160,14 +160,14 @@ const Collection = () => {
                   <Box display='flex' alignItems='end' position='relative' py={2}>
                     <Box position='absolute' zIndex={2} top={0} width='100%' height={250} sx={{backgroundImage: 'linear-gradient(transparent 0, rgba(0, 0, 0, .5) 100%)'}}><ImageWithBackground imgSrc={likeSong} customClass=""><></></ImageWithBackground></Box>
                       <Box zIndex={4} pl={2}>
-                        <img src={likeSong} width={200} style={{borderRadius: '5px'}}/>
+                        <img src={likeSong} width={200} style={{borderRadius: '5px'}} alt='Song Profile'/>
                       </Box>
                       <Box ml={2.50} zIndex={4} className="text-cw">
                         <Typography variant="body2" textTransform='capitalize' fontWeight='bold'>Playlist</Typography>
                         <Typography variant="h1" fontWeight='bold'>Liked Songs</Typography>
                         <Box display='flex' alignItems='center' pb={0.50}>
                           <Box width={24} height={24} mr={1}>
-                            <img src={profile[0].images[1] ? profile[0].images[1].url : person} style={{ borderRadius: '50%', height: '100%', width: '100%', objectFit: 'cover'}}/> 
+                            <img src={profile[0].images[1] ? profile[0].images[1].url : person} style={{ borderRadius: '50%', height: '100%', width: '100%', objectFit: 'cover'}} alt='Person Profile'/> 
                           </Box>
                           <Typography component='span' fontSize='14px' fontWeight='bold'>{profile[0]['display_name']}</Typography>
                           <Typography component='span' mx={0.50}>-</Typography>
@@ -208,7 +208,7 @@ const Collection = () => {
                                 <Typography className='track_no' component="p" sx={{color: '#a7a7a7', fontWeight: 'bold', fontSize: '14px', margin: '0'}}>{i+1}</Typography>
                                 <Typography component="p" className="text-cw track_play" sx={{display: 'none', fontWeight: 'bold', fontSize: '14px', margin: '0'}}><FaPlay/></Typography>
                               </Box>
-                              <img src={albums['album']['images'][0]['url']} width={40} height={40} style={{borderRadius: '5px'}}/>
+                              <img src={albums['album']['images'][0]['url']} width={40} height={40} style={{borderRadius: '5px'}} alt='Album Profile'/>
                               <Box ml={1}>
                                 <Typography component="p" className="text-cw" sx={{fontWeight: 'bold', fontSize: '14px', margin: '0'}}>{albums['name']}</Typography>
                                 <Link href={`/search/${albums['artists'][0]['name']}`} mr='5px' color='#a7a7a7' sx={{ ':hover': { color: '#fff', textDecoration: 'underline !important' }  }}>{albums['artists'][0]['name']}</Link>
@@ -246,24 +246,6 @@ const Collection = () => {
                 
           </Box>
         </Panel>
-
-        {playing.trim().length > 0 &&
-          <>
-            <SpotifyPlayer
-              token={(sessionStorage.getItem('access_token') || '')}
-              styles={{
-                bgColor: "rgb(19, 18, 18)",
-                color: "#ffffff",
-                sliderColor: "#1cb954",
-                sliderHandleColor: "whitesmoke",
-                trackArtistColor: "#ffffff",
-                trackNameColor: "#fff",
-              }}
-              uris={['spotify:artist:6HQYnRM4OzToCYPpVBInuU']}
-              autoPlay
-            />
-          </>
-        }
 
       </PanelGroup>
       <Player

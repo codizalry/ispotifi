@@ -37,7 +37,7 @@ const Aritst = () => {
 
   useEffect(()=>{
     profiles(accessToken);
-  }, []);
+  }, [accessToken]);
 
   // Search
   async function profiles(token: string) {
@@ -51,39 +51,25 @@ const Aritst = () => {
         } 
     }
 
-    const profileDatas = await fetch('https://api.spotify.com/v1/me', header)
+    await fetch('https://api.spotify.com/v1/me', header)
     .then(response => response.json())
     .then(response => { setProfileData([response]) })
 
-    const topArtists = await fetch('https://api.spotify.com/v1/me/top/artists?limit=10', header)
+    await fetch('https://api.spotify.com/v1/me/top/artists?limit=10', header)
     .then(data => data.json())
     .then(data => { setTopArtists(data.items) })
 
-    const topTracks = await fetch('https://api.spotify.com/v1/me/top/tracks?limit=5', header)
+    await fetch('https://api.spotify.com/v1/me/top/tracks?limit=5', header)
     .then(data => data.json())
     .then(data => { setTopTracks(data.items) })
 
-    const followPlaylist = await fetch(`https://api.spotify.com/v1/me/playlists?limit=6`, header)
+    await fetch(`https://api.spotify.com/v1/me/playlists?limit=6`, header)
     .then(data => data.json())
     .then(data => { setPlaylist(data.items) })
   }
 
-  async function likeSongs(token: string, trackID: string) {
-    var header = { 
-      method: 'PUT', 
-      headers: { 
-        'Content-Type': 'appliction/json', 
-        'Authorization': 'Bearer ' + token 
-      } 
-    }
-
-    const putLikedSong = await fetch(`https://api.spotify.com/v1/me/tracks?ids=${trackID}`, header)
-    .then(response => response)
-    .catch((error) => { sessionStorage.clear(); });
-  }
-
   const handleSubmit = () => {
-    setTracker(tracker == 'true' ? 'false' : 'true');
+    setTracker(tracker === 'true' ? 'false' : 'true');
   }
 
   return (
@@ -143,7 +129,7 @@ const Aritst = () => {
                             <Box width={230} height={230} overflow='hidden' display='flex' alignItems='center' justifyContent='center' sx={{ background: '#282828', boxShadow: '0 4px 20px rgba(0, 0, 0, .6)', borderRadius: '50%' }}>
                             {/* <Box width={230} height={230} overflow='hidden' display='flex' alignItems='center' justifyContent='center' sx={{ background: '#282828', boxShadow: '0 4px 60px rgba(0, 0, 0, .6)', borderRadius: '50%' }}> */}
                                 {/* <MdPersonOutline size={80} color="#7f7f7f"/> */}
-                                <img src={profileData[0].images[1] ? profileData[0].images[1].url : person} width={profileData[0].images[1] ? 230 : 130} height={profileData[0].images[1] ? 230 : 130} style={{objectFit:'cover'}}/>
+                                <img src={profileData[0].images[1] ? profileData[0].images[1].url : person} width={profileData[0].images[1] ? 230 : 130} height={profileData[0].images[1] ? 230 : 130} style={{objectFit:'cover'}} alt='Artist Profile'/>
                             </Box>
                         </Box>
                         <Box ml={3} zIndex={4} className="text-cw">

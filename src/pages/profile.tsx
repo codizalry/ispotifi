@@ -5,7 +5,6 @@ import { Box, Link, Typography } from "@mui/material";
 import { Panel, PanelGroup, PanelResizeHandle } from "react-resizable-panels";
 import { FaCircleChevronLeft, FaCircleChevronRight  } from "react-icons/fa6";
 import Player from "../components/player";
-import { FaPlay } from "react-icons/fa";
 import ImageWithBackground from "../components/ImageWithBackground";
 import { person, music } from "../assets";
 import Navigation from "../components/navigation";
@@ -38,7 +37,7 @@ const Profile = () => {
 
   useEffect(()=>{
     profiles(accessToken);
-  }, []);
+  }, [accessToken]);
 
   // Search
   async function profiles(token: string) {
@@ -52,35 +51,21 @@ const Profile = () => {
         } 
     }
 
-    const profileDatas = await fetch('https://api.spotify.com/v1/me', header)
+    await fetch('https://api.spotify.com/v1/me', header)
     .then(response => response.json())
     .then(response => { setProfileData([response]) })
 
-    const topArtists = await fetch('https://api.spotify.com/v1/me/top/artists?limit=10', header)
+    await fetch('https://api.spotify.com/v1/me/top/artists?limit=10', header)
     .then(data => data.json())
     .then(data => { setTopArtists(data.items) })
 
-    const topTracks = await fetch('https://api.spotify.com/v1/me/top/tracks?limit=5', header)
+    fetch('https://api.spotify.com/v1/me/top/tracks?limit=5', header)
     .then(data => data.json())
     .then(data => { setTopTracks(data.items) })
 
-    const followPlaylist = await fetch(`https://api.spotify.com/v1/me/playlists?limit=6`, header)
+    await fetch(`https://api.spotify.com/v1/me/playlists?limit=6`, header)
     .then(data => data.json())
     .then(data => { setPlaylist(data.items) })
-  }
-
-  async function likeSongs(token: string, trackID: string) {
-    var header = { 
-      method: 'PUT', 
-      headers: { 
-        'Content-Type': 'appliction/json', 
-        'Authorization': 'Bearer ' + token 
-      } 
-    }
-
-    const putLikedSong = await fetch(`https://api.spotify.com/v1/me/tracks?ids=${trackID}`, header)
-    .then(response => response)
-    .catch((error) => { sessionStorage.clear(); });
   }
 
   const handleSubmit = () => {
@@ -144,7 +129,7 @@ const Profile = () => {
                             <Box width={230} height={230} overflow='hidden' display='flex' alignItems='center' justifyContent='center' sx={{ background: '#282828', boxShadow: '0 4px 20px rgba(0, 0, 0, .6)', borderRadius: '50%' }}>
                             {/* <Box width={230} height={230} overflow='hidden' display='flex' alignItems='center' justifyContent='center' sx={{ background: '#282828', boxShadow: '0 4px 60px rgba(0, 0, 0, .6)', borderRadius: '50%' }}> */}
                                 {/* <MdPersonOutline size={80} color="#7f7f7f"/> */}
-                                <img src={profileData[0].images[1] ? profileData[0].images[1].url : person} width={profileData[0].images[1] ? 230 : 130} height={profileData[0].images[1] ? 230 : 130} style={{objectFit:'cover'}}/>
+                                <img src={profileData[0].images[1] ? profileData[0].images[1].url : person} width={profileData[0].images[1] ? 230 : 130} height={profileData[0].images[1] ? 230 : 130} style={{objectFit:'cover'}} alt='User Profile'/>
                             </Box>
                         </Box>
                         <Box ml={3} zIndex={4} className="text-cw">
@@ -231,7 +216,7 @@ const Profile = () => {
                                           imageStyle={'square'}
                                           image={artist['images'] ? artist['images'][0]['url'] : music}
                                           title={artist['name']}
-                                          artist= {'By ' +artist['owner']['display_name']}
+                                          artist= {'By '}
                                           />
                                   )
                                 } )

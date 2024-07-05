@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import SideBar from "../components/sidebar"
 import BasicAuth from "../hook/basicAuth"
-import { Box, Button, Container, Grid, Link, TextField, Tooltip, Typography } from "@mui/material";
+import { Box, Button, Container, Link, Tooltip, Typography } from "@mui/material";
 import { IoLogOut } from "react-icons/io5";
 import { useNavigate, useParams } from "react-router-dom";
 import { Panel, PanelGroup, PanelResizeHandle } from "react-resizable-panels";
@@ -16,7 +16,7 @@ const CLIENT_SECRET = '58c1d3a10f444659a39b2185adcca36c';
 
 const Genre = () => {
   const navigate = useNavigate();
-  const { id } = useParams<{ id: string }>();
+  // const { id } = useParams<{ id: string }>();
   const [accessToken, setAccessToken] = useState('');
   const [categories, setCategories] = useState([]);
   const [sidePanelSize, setSidePanelSize] = useState('');
@@ -25,9 +25,6 @@ const Genre = () => {
   BasicAuth();
 
   useEffect(()=>{
-    console.log(id);
-
-    
     // API Access Token
     const authParameters = {
       method: 'POST',
@@ -58,7 +55,7 @@ const Genre = () => {
     }
 
     // get request with all the categories
-    const categoriesData = await fetch('https://api.spotify.com/v1/browse/categories?offset=0&limit=8', searchParameters)
+    await fetch('https://api.spotify.com/v1/browse/categories?offset=0&limit=8', searchParameters)
       .then(response => response.json())
       .then(data => {
         setCategories(data.categories.items);
@@ -118,7 +115,7 @@ const Genre = () => {
                   </Tooltip>
               </Box>
               <Box className='text-cw' display='flex' flexDirection='column' alignItems='center' justifyContent='center' height='80%' mt={10}>
-                    <img src={maintenance} width='100'/>
+                    <img src={maintenance} width='100' alt='maintenance'/>
                     <Typography variant="h4" display='flex' alignItems='center' color='#b3bab4' p={5}>This Section is under maintenance. <LuConstruction style={{ marginLeft: '20px', fontSize: '40px'}} /></Typography>
                 </Box>
               <Box display='flex' justifyContent='space-between' alignItems='center'>
@@ -133,7 +130,7 @@ const Genre = () => {
                       <ImageWithBackground imgSrc={category['icons'][0]['url']} customClass="">
                         <Typography variant="h5" fontWeight='bold'>{category['name']}</Typography>
                         <Box textAlign='right' mr={-4.5}>
-                          <img src={category['icons'][0]['url']} width={150} style={{transform: 'rotate(30deg)'}}/>
+                          <img src={category['icons'][0]['url']} width={150} style={{transform: 'rotate(30deg)'}} alt='category'/>
                         </Box>
                       </ImageWithBackground>
                     </Link>

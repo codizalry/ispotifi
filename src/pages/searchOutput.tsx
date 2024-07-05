@@ -32,7 +32,6 @@ const SearchOutput = () => {
   const [topTracks, setTopTracks] = useState([]);
   const [albums, setAlbums] = useState([]);
   const [artists, setArtists] = useState<artistData[]>([]);
-  const [selectedTrackUri, setSelectedTrackUri] = useState('');
   const [sidePanelSize, setSidePanelSize] = useState('');
   const [tracker, setTracker] = useState<string>(localStorage.getItem('test') || 'false');
   const [playlists, setPlaylists] = useState([]);
@@ -51,7 +50,7 @@ const SearchOutput = () => {
     };
 
     fetch('https://accounts.spotify.com/api/token', authParameters)
-      .then(result => result.json())
+      .then(response => response.json())
       .then(data => {
         setAccessToken(data.access_token);
         search(data.access_token);
@@ -77,12 +76,12 @@ const SearchOutput = () => {
       .then(response => response.json())
       .then(data => { return data.artists.items[0].id })
       .catch((error) => { sessionStorage.clear(); });
-    var artistInfo = await fetch('https://api.spotify.com/v1/artists/' + artistID, searchParameters)
+    await fetch('https://api.spotify.com/v1/artists/' + artistID, searchParameters)
     .then(response => response.json())
     .then(data => { setArtists([data]) })
 
     // get request with artist ID grab all the albums from that artist
-    var Albums = await fetch('https://api.spotify.com/v1/artists/' + artistID + '/albums?include_groups=album&market=PH&limit=20', searchParameters)
+    await fetch('https://api.spotify.com/v1/artists/' + artistID + '/albums?include_groups=album&market=PH&limit=20', searchParameters)
       .then(response => response.json())
       .then(data => {
         setAlbums(data.items);
@@ -90,7 +89,7 @@ const SearchOutput = () => {
       .catch((error) => { sessionStorage.clear(); });
 
     // get request with artist ID grab all the top track from that artist
-    var topTracks = await fetch('https://api.spotify.com/v1/artists/' + artistID + '/top-tracks?include_groups=album&market=PH&limit=5', searchParameters)
+    await fetch('https://api.spotify.com/v1/artists/' + artistID + '/top-tracks?include_groups=album&market=PH&limit=5', searchParameters)
       .then(response => response.json())
       .then(data => {
         setTopTracks(data.tracks)
@@ -99,7 +98,7 @@ const SearchOutput = () => {
 
       
     // get request with artist ID grab all the albums from that artist
-    var playlist = await fetch('https://api.spotify.com/v1/search?q='+searchInput+'&type=playlist&market=PH&limit=10', searchParameters)
+    await fetch('https://api.spotify.com/v1/search?q='+searchInput+'&type=playlist&market=PH&limit=10', searchParameters)
     .then(response => response.json())
     .then(data => {
       setPlaylists(data.playlists.items);
@@ -109,7 +108,7 @@ const SearchOutput = () => {
   }
 
   const handleSubmit = () => {
-    setTracker(tracker == 'true' ? 'false' : 'true');
+    setTracker(tracker === 'true' ? 'false' : 'true');
   }
   
   return (
@@ -289,23 +288,12 @@ const SearchOutput = () => {
                 </>
               }
 
-              {selectedTrackUri && (
-              <Box mt={4}>
-                <iframe 
-                  src={`https://open.spotify.com/embed/track/${selectedTrackUri}`} 
-                  width="100%" 
-                  height="380" 
-                  frameBorder="0" 
-                  allow='autoplay; encrypted-media'
-                ></iframe>
-              </Box>
-              )}
             </Container>
           </Box>
         </Panel>
     </PanelGroup>
     <Player
-      trackID={selectedTrackUri}
+      trackID=''
       accessTokens={accessToken}/>
     </>
   )
