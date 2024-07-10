@@ -65,6 +65,7 @@ const Collection = () => {
             }
             duration_ms: number,
             artists: {
+                id: string,
                 name: string,
             }[]
         }
@@ -201,6 +202,7 @@ const Collection = () => {
                       track.map((album, i) => {
                         const albums = album['track'];
                         const date = new Date(albums['duration_ms']);
+                        console.log(albums['artists'][0]);
                         return (
                           <Box onClick={handleSubmit} px={1.25} py={1} display="flex" justifyContent="space-between" alignItems="center" borderRadius={1.25} sx={ { transition: '0.3s', ':hover': { background: 'rgba(179,179,179, 0.1)', cursor: 'pointer' }, ':hover .image-content img': { opacity: 0.5 }, ':hover .image-content span': { opacity: 1 }, ':hover .track_play': { display: 'block' }, ':hover .track_no': { display: 'none' } } } key={albums['id']}>
                             <Box display="flex" alignItems="center" >
@@ -211,18 +213,18 @@ const Collection = () => {
                               <img src={albums['album']['images'][0]['url']} width={40} height={40} style={{borderRadius: '5px'}} alt='Album Profile'/>
                               <Box ml={1}>
                                 <Typography component="p" className="text-cw" sx={{fontWeight: 'bold', fontSize: '14px', margin: '0'}}>{albums['name']}</Typography>
-                                <Link href={`/search/${albums['artists'][0]['name']}`} mr='5px' color='#a7a7a7' sx={{ ':hover': { color: '#fff', textDecoration: 'underline !important' }  }}>{albums['artists'][0]['name']}</Link>
+                                <Link href={`/artist/${albums['artists'][0]['id']}`} mr='5px' color='#a7a7a7' sx={{ ':hover': { color: '#fff', textDecoration: 'underline !important' }  }}>{albums['artists'][0]['name']}</Link>
                                 {
                                   albums['artists'][1] &&
-                                  <Link href={`/search/${albums['artists'][1]['name']}`} mr='5px' color='#a7a7a7' sx={{ ':hover': { color: '#fff', textDecoration: 'underline !important' }  }}>{albums['artists'][1]['name']}</Link>
+                                  <Link href={`/artist/${albums['artists'][1]['id']}`} mr='5px' color='#a7a7a7' sx={{ ':hover': { color: '#fff', textDecoration: 'underline !important' }  }}>{albums['artists'][1]['name']}</Link>
                                 }
                                 {
                                   albums['artists'][2] &&
-                                  <Link href={`/search/${albums['artists'][2]['name']}`} mr='5px' color='#a7a7a7' sx={{ ':hover': { color: '#fff', textDecoration: 'underline !important' }  }}>{albums['artists'][2]['name']}</Link>
+                                  <Link href={`/artist/${albums['artists'][2]['id']}`} mr='5px' color='#a7a7a7' sx={{ ':hover': { color: '#fff', textDecoration: 'underline !important' }  }}>{albums['artists'][2]['name']}</Link>
                                 }
                                 {
                                   albums['artists'][3] &&
-                                  <Link href={`/search/${albums['artists'][3]['name']}`} mr='5px' color='#a7a7a7' sx={{ ':hover': { color: '#fff', textDecoration: 'underline !important' }  }}>{albums['artists'][3]['name']}</Link>
+                                  <Link href={`/artist/${albums['artists'][3]['id']}`} mr='5px' color='#a7a7a7' sx={{ ':hover': { color: '#fff', textDecoration: 'underline !important' }  }}>{albums['artists'][3]['name']}</Link>
                                 }
                               </Box>
                             </Box>
