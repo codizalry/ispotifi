@@ -54,17 +54,15 @@ const toolTipObj = {
 
 // Icon style
 const iconStyle = {
-    cursor: 'pointer',
+    cursor: 'no-drop',
     color: '#b3b3b3',
     ':hover': {
         color: '#fff'
     },
 }
 
-
-
   return (
-    <Box display='flex' justifyContent='space-between' marginTop='10px' marginLeft='10px' marginRight='10px' >
+    <Box display='flex' justifyContent='space-between' marginTop='10px' marginLeft='10px' marginRight='10px' sx={{cursor: 'no-drop !important', ':hover' : {opacity: '0.5'} }}>
         <Box display='flex' flexDirection='row' alignItems='center'>
             <img src="https://i.scdn.co/image/ab67616d00001e02f907de96b9a4fbc04accc0d5" width={55} style={{borderRadius: '5px'}} alt='Album Profile' />
             <Box marginLeft='15px'>
@@ -80,8 +78,9 @@ const iconStyle = {
                 <Tooltip title="Previous" placement="top" slotProps={toolTipObj}>
                     <Typography sx={iconStyle}><MdSkipPrevious fontSize="30px"/></Typography>
                 </Tooltip>
-                <Tooltip title={pause ? 'Pause' : 'Play'} placement="top" slotProps={toolTipObj} onClick={() => setPause(pause ? false : true)}>
-                    <Typography color="#fff" sx={{cursor: "pointer", transition: '0.2s', ':hover': { scale: '1.1'}}}>{pause ? <FaCirclePause fontSize="35px"/> : <FaCirclePlay fontSize="35px"/> }</Typography>
+                {/* <Tooltip title={pause ? 'Pause' : 'Play'} placement="top" slotProps={toolTipObj} onClick={() => setPause(pause ? false : true)}> */}
+                <Tooltip title='Play' placement="top" slotProps={toolTipObj}>
+                    <Typography color="#fff" sx={{cursor: "no-drop", transition: '0.2s', ':hover': { scale: '1.1'}}}>{pause ? <FaCirclePause fontSize="35px"/> : <FaCirclePlay fontSize="35px"/> }</Typography>
                 </Tooltip>
                 <Tooltip title="Next" placement="top" slotProps={toolTipObj}>
                     <Typography sx={iconStyle}><MdSkipNext fontSize="30px"/></Typography>
@@ -93,7 +92,7 @@ const iconStyle = {
             <Box display='flex' alignItems='center' justifyContent='space-between' width='600px' color='rgba(167, 167, 167, 0.8)'>
                 <Typography variant="body2">0.04</Typography>
                 <Box position='relative' width='100%' height='5px' borderRadius='50px' mx={2} sx={{backgroundColor: 'rgba(167, 167, 167, 0.5)', ':hover .bar': {background: '#1db954', borderColor: '#1db954'}}}>
-                    <Typography className="bar" component="hr" height='3px' width='19%' borderRadius='50px' sx={{background:'#b3b3b3', cursor: 'pointer', borderColor: 'transparent'}}/>
+                    <Typography className="bar" component="hr" height='3px' width='19%' borderRadius='50px' sx={{background:'#b3b3b3', cursor: 'no-drop', borderColor: 'transparent'}}/>
                 </Box>
                 <Typography variant="body2">3.52</Typography>
             </Box>
@@ -114,7 +113,7 @@ const iconStyle = {
                 </Tooltip>
                 {/* <FaCirclePause fontSize="35px"/> */}
                 <Box position='relative' width='100px' height='5px' marginTop='-8px' borderRadius='50px' mx={2} sx={{backgroundColor: 'rgba(167, 167, 167, 0.5)', ':hover .bar': {background: '#1db954', borderColor: '#1db954'}}}>
-                    <Typography className="bar" component="hr" height='3px' width='9%' borderRadius='50px' sx={{background:'#b3b3b3', cursor: 'pointer', borderColor: 'transparent'}}/>
+                    <Typography className="bar" component="hr" height='3px' width='9%' borderRadius='50px' sx={{background:'#b3b3b3', cursor: 'no-drop', borderColor: 'transparent'}}/>
                 </Box>
             </Box>
             <Tooltip title="Open mini player" placement="top" slotProps={toolTipObj}>
