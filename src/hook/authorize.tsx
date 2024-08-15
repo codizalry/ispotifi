@@ -1,6 +1,6 @@
 const SPOTIFY_CLIENT_ID: string = `4af4046d93284335815103e402797520`;
 const SPOTIFY_CLIENT_SECRET: string = `58c1d3a10f444659a39b2185adcca36c`;
-const redirectUri: string = "https://ispotifi.netlify.app/";
+const redirectUri: string = "http://localhost:3000";
 
 
 function generateRandomString(length: number): string {
